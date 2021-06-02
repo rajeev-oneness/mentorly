@@ -7,26 +7,26 @@
             @if($user->active_status)
                 <span class="activeStatus"></span>
             @endif
-        <div class="avatar av-m" 
+        <div class="avatar av-m"
         style="background-image: url('{{ asset('avatar.png') }}');">
         </div>
         </td>
         {{-- center side --}}
         <td>
         <p data-id="{{ $type.'_'.$user->id }}">
-            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }} 
+            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
             <span>{{ $lastMessage->created_at->diffForHumans() }}</span></p>
         <span>
             {{-- Last Message user indicator --}}
             {!!
-                $lastMessage->from_id == Auth::user()->id 
+                $lastMessage->from_id == Auth::guard($guard)->user()->id
                 ? '<span class="lastMessageIndicator">You :</span>'
                 : ''
             !!}
             {{-- Last message body --}}
             @if($lastMessage->attachment == null)
             {{
-                strlen($lastMessage->body) > 30 
+                strlen($lastMessage->body) > 30
                 ? trim(substr($lastMessage->body, 0, 30)).'..'
                 : $lastMessage->body
             }}
@@ -37,7 +37,7 @@
         {{-- New messages counter --}}
             {!! $unseenCounter > 0 ? "<b>".$unseenCounter."</b>" : '' !!}
         </td>
-        
+
     </tr>
 </table>
 @endif
@@ -55,9 +55,9 @@
         {{-- center side --}}
         <td>
         <p data-id="{{ $type.'_'.$user->id }}">
-            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }} 
+            {{ strlen($user->name) > 12 ? trim(substr($user->name,0,12)).'..' : $user->name }}
         </td>
-        
+
     </tr>
 </table>
 @endif

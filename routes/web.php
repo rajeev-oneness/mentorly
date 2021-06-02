@@ -2,11 +2,25 @@
 use Illuminate\Http\Request;
 
 
-Route::get('messages', function () {
-    return view('messages.pages.app');
+Route::prefix('messages')->group(function () {
+    Route::get('/', 'Site\MessageController@index')->name('messages');
+    Route::post('/idInfo', 'Site\MessagesController@idFetchData');
+    Route::post('/sendMessage', 'Site\MessagesController@send')->name('send.message');
+    Route::post('/fetchMessages', 'Site\MessagesController@fetch')->name('fetch.messages');
+    // Route::get('/download/{fileName}', 'MessagesController@download')->name(config('chatify.attachments.download_route_name'));
+    Route::post('/chat/auth', 'Site\MessagesController@pusherAuth')->name('pusher.auth');
+    Route::post('/makeSeen', 'Site\MessagesController@seen')->name('messages.seen');
+    Route::post('/getContacts', 'Site\MessagesController@getContacts')->name('contacts.get');
+    Route::post('/updateContacts', 'Site\MessagesController@updateContactItem')->name('contacts.update');
+    Route::post('/star', 'Site\MessagesController@favorite')->name('star');
+    Route::post('/favorites', 'Site\MessagesController@getFavorites')->name('favorites');
+    Route::post('/search', 'Site\MessagesController@search')->name('search');
+    Route::post('/shared', 'Site\MessagesController@sharedPhotos')->name('shared');
+    Route::post('/deleteConversation', 'Site\MessagesController@deleteConversation')->name('conversation.delete');
+    Route::post('/updateSettings', 'Site\MessagesController@updateSettings')->name('avatar.update');
+    Route::post('/setActiveStatus', 'Site\MessagesController@setActiveStatus')->name('activeStatus.set');
+    Route::get('/{id}', 'Site\MessagesController@index')->name('user');
 });
-
-
 
 
 
